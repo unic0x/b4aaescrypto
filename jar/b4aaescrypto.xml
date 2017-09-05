@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <doclet-version-NOT-library-version>1.05</doclet-version-NOT-library-version>
+    <class>
+        <name>crypto.crypto</name>
+        <shortname>crypto</shortname>
+        <owner>process</owner>
+        <method>
+            <name>generateKey</name>
+            <comment>A function that generates random AES and HMAC keys and prints out exceptions but
+ doesn't throw them since none should be encountered. If they are
+ encountered, the return value is null.
+Return type: @return:The AES and HMAC keys.</comment>
+            <returntype>crypto.crypto.SecretKeys</returntype>
+        </method>
+        <method>
+            <name>saltString</name>
+            <comment>Converts the given salt into a base64 encoded string suitable for
+ storage.
+salt: 
+Return type: @return:a base 64 encoded salt string suitable to pass into generateKeyFromPassword.</comment>
+            <returntype>java.lang.String</returntype>
+            <parameter>
+                <name>salt</name>
+                <type>byte[]</type>
+            </parameter>
+        </method>
+        <method>
+            <name>generateMac</name>
+            <comment>Generate the mac based on HMAC_ALGORITHM
+integrityKey: The key used for hmac
+byteCipherText: the cipher text
+Return type: @return:A byte array of the HMAC for the given key and ciphertext</comment>
+            <returntype>byte[]</returntype>
+            <parameter>
+                <name>byteCipherText</name>
+                <type>byte[]</type>
+            </parameter>
+            <parameter>
+                <name>integrityKey</name>
+                <type>javax.crypto.SecretKey</type>
+            </parameter>
+        </method>
+        <method>
+            <name>keys</name>
+            <comment>An aes key derived from a base64 encoded key. This does not generate the
+ key. It's not random or a PBE key.
+keysStr: a base64 encoded AES key / hmac key as base64(aesKey) : base64(hmacKey).
+Return type: @return:an AES and HMAC key set suitable for other functions.</comment>
+            <returntype>crypto.crypto.SecretKeys</returntype>
+            <parameter>
+                <name>keysStr</name>
+                <type>java.lang.String</type>
+            </parameter>
+        </method>
+        <method>
+            <name>generateSalt</name>
+            <comment>Generates a random salt.
+Return type: @return:The random salt suitable for generateKeyFromPassword.</comment>
+            <returntype>byte[]</returntype>
+        </method>
+        <method>
+            <name>encrypt</name>
+            <comment>Generates a random IV and encrypts this plain text with the given key. Then attaches
+ a hashed MAC, which is contained in the CipherTextIvMac class.
+plaintext: The text that will be encrypted, which
+                  will be serialized with UTF-8
+secretKeys: The AES and HMAC keys with which to encrypt
+Return type: @return:a tuple of the IV, ciphertext, mac</comment>
+            <returntype>crypto.crypto.CipherTextIvMac</returntype>
+            <parameter>
+                <name>plaintext</name>
+                <type>java.lang.String</type>
+            </parameter>
+            <parameter>
+                <name>secretKeys</name>
+                <type>crypto.crypto.SecretKeys</type>
+            </parameter>
+        </method>
+        <method>
+            <name>generateKeyFromPassword</name>
+            <comment>A function that generates password-based AES and HMAC keys. It prints out exceptions but
+ doesn't throw them since none should be encountered. If they are
+ encountered, the return value is null.
+password: The password to derive the keys from.
+Return type: @return:The AES and HMAC keys.</comment>
+            <returntype>crypto.crypto.SecretKeys</returntype>
+            <parameter>
+                <name>password</name>
+                <type>java.lang.String</type>
+            </parameter>
+            <parameter>
+                <name>salt</name>
+                <type>byte[]</type>
+            </parameter>
+        </method>
+        <method>
+            <name>generateIv</name>
+            <comment>Creates a random Initialization Vector (IV) of IV_LENGTH_BYTES.
+Return type: @return:The byte array of this IV</comment>
+            <returntype>byte[]</returntype>
+        </method>
+        <method>
+            <name>decrypt</name>
+            <comment>AES CBC decrypt.
+civ: the cipher text, iv, and mac
+secretKeys: the AES and HMAC keys
+Return type: @return:The raw decrypted bytes</comment>
+            <returntype>byte[]</returntype>
+            <parameter>
+                <name>civ</name>
+                <type>crypto.crypto.CipherTextIvMac</type>
+            </parameter>
+            <parameter>
+                <name>secretKeys</name>
+                <type>crypto.crypto.SecretKeys</type>
+            </parameter>
+        </method>
+        <method>
+            <name>constantTimeEq</name>
+            <comment>Simple constant-time equality of two byte arrays. Used for security to avoid timing attacks.
+a: 
+b: 
+Return type: @return:true iff the arrays are exactly equal.</comment>
+            <returntype>boolean</returntype>
+            <parameter>
+                <name>a</name>
+                <type>byte[]</type>
+            </parameter>
+            <parameter>
+                <name>b</name>
+                <type>byte[]</type>
+            </parameter>
+        </method>
+        <method>
+            <name>keyString</name>
+            <comment>Converts the given AES/HMAC keys into a base64 encoded string suitable for
+ storage. Sister function of keys.
+keys: The combined aes and hmac keys
+Return type: @return:a base 64 encoded AES string and hmac key as base64(aesKey) : base64(hmacKey)</comment>
+            <returntype>java.lang.String</returntype>
+            <parameter>
+                <name>keys</name>
+                <type>crypto.crypto.SecretKeys</type>
+            </parameter>
+        </method>
+        <method>
+            <name>decryptString</name>
+            <comment>AES CBC decrypt.
+civ: The cipher text, IV, and mac
+secretKeys: The AES and HMAC keys
+encoding: The string encoding to use to decode the bytes after decryption
+Return type: @return:A string derived from the decrypted bytes (not base64 encoded)</comment>
+            <returntype>java.lang.String</returntype>
+            <parameter>
+                <name>civ</name>
+                <type>crypto.crypto.CipherTextIvMac</type>
+            </parameter>
+            <parameter>
+                <name>secretKeys</name>
+                <type>crypto.crypto.SecretKeys</type>
+            </parameter>
+            <parameter>
+                <name>encoding</name>
+                <type>java.lang.String</type>
+            </parameter>
+        </method>
+        <field>
+            <name>BASE64_FLAGS</name>
+            <comment></comment>
+            <returntype>int</returntype>
+        </field>
+    </class>
+    <class>
+        <name>crypto.crypto.SecretKeys</name>
+        <comment>Holder class that has both the secret AES key for encryption (confidentiality)
+ and the secret HMAC key for integrity.</comment>
+        <owner>process</owner>
+        <method>
+            <name>hashCode</name>
+            <comment></comment>
+            <returntype>int</returntype>
+        </method>
+        <method>
+            <name>equals</name>
+            <comment></comment>
+            <returntype>boolean</returntype>
+            <parameter>
+                <name>obj</name>
+                <type>java.lang.Object</type>
+            </parameter>
+        </method>
+        <method>
+            <name>toString</name>
+            <comment>Encodes the two keys as a string
+Return type: @return:base64(confidentialityKey):base64(integrityKey)</comment>
+            <returntype>java.lang.String</returntype>
+        </method>
+        <property>
+            <name>IntegrityKey</name>
+            <returntype>javax.crypto.SecretKey</returntype>
+            <parameter>
+                <name>integrityKey</name>
+                <type>javax.crypto.SecretKey</type>
+            </parameter>
+            <comment></comment>
+        </property>
+        <property>
+            <name>ConfidentialityKey</name>
+            <returntype>javax.crypto.SecretKey</returntype>
+            <parameter>
+                <name>confidentialityKey</name>
+                <type>javax.crypto.SecretKey</type>
+            </parameter>
+            <comment></comment>
+        </property>
+    </class>
+    <class>
+        <name>crypto.crypto.CipherTextIvMac</name>
+        <comment>Holder class that allows us to bundle ciphertext and IV together.</comment>
+        <owner>process</owner>
+        <method>
+            <name>ivCipherConcat</name>
+            <comment>Concatinate the IV to the cipherText using array copy.
+ This is used e.g. before computing mac.
+iv: The IV to prepend
+cipherText: the cipherText to append
+Return type: @return:iv:cipherText, a new byte array.</comment>
+            <returntype>byte[]</returntype>
+            <parameter>
+                <name>iv</name>
+                <type>byte[]</type>
+            </parameter>
+            <parameter>
+                <name>cipherText</name>
+                <type>byte[]</type>
+            </parameter>
+        </method>
+        <method>
+            <name>hashCode</name>
+            <comment></comment>
+            <returntype>int</returntype>
+        </method>
+        <method>
+            <name>equals</name>
+            <comment></comment>
+            <returntype>boolean</returntype>
+            <parameter>
+                <name>obj</name>
+                <type>java.lang.Object</type>
+            </parameter>
+        </method>
+        <method>
+            <name>toString</name>
+            <comment>Encodes this ciphertext, IV, mac as a string.
+Return type: @return:base64(iv) : base64(mac) : base64(ciphertext).
+ The iv and mac go first because they're fixed length.</comment>
+            <returntype>java.lang.String</returntype>
+        </method>
+        <property>
+            <name>CipherText</name>
+            <returntype>byte[]</returntype>
+            <comment></comment>
+        </property>
+        <property>
+            <name>Iv</name>
+            <returntype>byte[]</returntype>
+            <comment></comment>
+        </property>
+        <property>
+            <name>Mac</name>
+            <returntype>byte[]</returntype>
+            <comment></comment>
+        </property>
+    </class>
+    <class>
+        <name>crypto.crypto.PrngFixes</name>
+        <comment>Fixes for the RNG as per
+ http://android-developers.blogspot.com/2013/08/some-securerandom-thoughts.html
+
+ This software is provided 'as-is', without any express or implied
+ warranty. In no event will Google be held liable for any damages arising
+ from the use of this software.
+
+ Permission is granted to anyone to use this software for any purpose,
+ including commercial applications, and to alter it and redistribute it
+ freely, as long as the origin is not misrepresented.
+
+ Fixes for the output of the default PRNG having low entropy.
+
+ The fixes need to be applied via {@link #apply()} before any use of Java
+ Cryptography Architecture primitives. A good place to invoke them is in
+ the application's {@code onCreate}.</comment>
+        <owner>process</owner>
+        <method>
+            <name>apply</name>
+            <comment>Applies all fixes.</comment>
+            <returntype>void</returntype>
+        </method>
+    </class>
+    <class>
+        <name>crypto.crypto.PrngFixes.LinuxPRNGSecureRandom</name>
+        <comment>{@link SecureRandomSpi} which passes all requests to the Linux PRNG (
+ {@code /dev/urandom}).</comment>
+        <owner>process</owner>
+        <method>
+            <name>engineSetSeed</name>
+            <comment></comment>
+            <returntype>void</returntype>
+            <parameter>
+                <name>bytes</name>
+                <type>byte[]</type>
+            </parameter>
+        </method>
+        <method>
+            <name>engineGenerateSeed</name>
+            <comment></comment>
+            <returntype>byte[]</returntype>
+            <parameter>
+                <name>size</name>
+                <type>int</type>
+            </parameter>
+        </method>
+        <method>
+            <name>engineNextBytes</name>
+            <comment></comment>
+            <returntype>void</returntype>
+            <parameter>
+                <name>bytes</name>
+                <type>byte[]</type>
+            </parameter>
+        </method>
+    </class>
+    <version>0.01</version>
+    <author>Cryptography wrapped By Jamie John</author>
+    <dependsOn>jsr305-1.3.9</dependsOn>
+</root>
