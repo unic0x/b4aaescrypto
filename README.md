@@ -1,5 +1,4 @@
 # b4aaescrypto
-===============
 
 A simple Android class for encrypting &amp; decrypting strings
 
